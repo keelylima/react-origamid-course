@@ -18,8 +18,45 @@
 
   <script type="text/babel">
 
-    function App() {
-      return <div>Oie, sou um texto</div>
+    const Compras = () => {
+      // const contador = React.useState(0);
+
+      // Destruturação 
+      const [contador, setContador] = React.useState(0);
+      console.log(contador)
+
+      function comprar() {
+        setContador(contador + 1);
+      }
+
+      return (
+        //só posso retornar um elemento com (ou não) outros dentro, acrescentar mais uma div vai dar erro
+        <div>
+          <button onClick={comprar}>Comprar</button>
+          <p>Total: {contador}</p>
+          <p>Preço: R$ {contador * 250}</p>
+        </div>
+      )
+    }
+
+    const Titulo = () => {
+      const numero = Math.random() * 100;
+      return <h1>Meu numero: {numero}</h1>
+    }
+
+    const Button = () => {
+      function handleClick(event) {
+        console.log(event.target.innerText);
+      }
+      return <button onClick={handleClick}>Comprar</button>
+    }
+
+    const App = () => {
+      return <div>Oie, sou um texto
+      <Compras />
+        <Titulo />
+        <Button />
+      </div>
     }
 
     //passar 2 parametros, o primeiro é qual componente vai renderizar, segundo é onde vai renderizer
