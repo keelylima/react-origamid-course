@@ -1,34 +1,33 @@
 import React from 'react';
-import ButtonModal from './ButtonModal';
-import Modal from './Modal';
+import Produto from './Produto';
+
 const App = () => {
-  // o ativoHook é uma array onde: o primeiro valor é o que passo no useState e o segundo é a função que vai mudar esse valor
+  const [dados, setDados] = React.useState(null);
+  const [loading, setLoading] = React.useState(null);
 
-  // forma sem destruturação
-  // const ativoHook = React.useState(false);
-  // const ativoValor = ativoHook[0];
-  // const atualizaValor = ativoHook[1];
-
-  // com destruturação
-  // const [ativo, setAtivo] = React.useState(false);
-  // const [dados, setDados] = React.useState({ nome: 'Kelly', idade: '25' });
-
-  // function handleClick() {
-  //   setAtivo(!ativo);
-  //   setDados({ ...dados, faculdade: 'Possui faculdade' });
-  // }
-
-  const [modal, setModal] = React.useState(false);
+  async function handleClick(event) {
+    setLoading(true);
+    const response = await fetch(
+      `https://ranekapi.origamid.dev/json/api/produto/${event.target.innerText}`,
+    );
+    const json = await response.json();
+    setDados(json);
+    setLoading(false);
+  }
 
   return (
     <div>
-      {/* <p>{dados.nome}</p>
-      <p>{dados.idade}</p>
-      <p>{dados.faculdade}</p>
-      <button onClick={handleClick}>{ativo ? 'Ativo' : 'Inativo'}</button> */}
-
-      <Modal modal={modal} setModal={setModal}></Modal>
-      <ButtonModal setModal={setModal}></ButtonModal>
+      <button style={{ margin: '.5rem' }} onClick={handleClick}>
+        notebook
+      </button>
+      <button style={{ margin: '.5rem' }} onClick={handleClick}>
+        smartphone
+      </button>
+      <button style={{ margin: '.5rem' }} onClick={handleClick}>
+        tablet
+      </button>
+      {loading && <p>Carregando...</p>}
+      {!loading && dados && <Produto dados={dados}></Produto>}
     </div>
   );
 };
